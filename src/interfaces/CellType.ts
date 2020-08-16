@@ -1,7 +1,9 @@
 import ObjectSpecs from "./ObjectSpecs";
+import Material from "./Material";
 
 export default interface CellType {
+  type: string;
   objectSpecs: ObjectSpecs;
 
-  work(): boolean;
+  work(target: string | Material): boolean;
 }
