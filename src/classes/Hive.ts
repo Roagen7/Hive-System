@@ -26,6 +26,4 @@ export default class Hive {
   public addCell(cell: any): void {
     this.cells.push(cell);
   }
-
-  public meow(): void {}
 }
