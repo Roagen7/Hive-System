@@ -1,0 +1,17 @@
+{
+  "name": "hive",
+  "version": "1.0.0",
+  "description": "package representing the functioning of an abstract hive-like system of objects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "npx tsc ",
+    "app": "ts-node-dev"
+  },
+  "author": "roagen",
+  "license": "ISC",
+  "dependencies": {
+    "ts-node-dev": "^1.0.0-pre.57",
+    "typescript": "^3.9.7"
+  }
+}
