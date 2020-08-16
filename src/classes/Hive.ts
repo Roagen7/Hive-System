@@ -1,5 +1,6 @@
-import ObjectSpecs from "../interfaces/ObjectSpecs";
 import HiveCell from "./HiveCell";
+import { Materials } from "../enums/Materials";
+import ObjectSpecs from "../interfaces/ObjectSpecs";
 
 export default class Hive {
   public cells: HiveCell[];
@@ -17,13 +18,16 @@ export default class Hive {
     } else {
       this.objectSpecs = {
         hollowInside: false,
-        material: "Polylactid acid",
+        material: Materials.PolylactidAcid,
         numOfAngles: 6,
       };
     }
   }
 
   public addCell(cell: any): void {
+    if (!cell.objectSpecs) {
+      cell.objectSpecs = this.objectSpecs;
+    }
     this.cells.push(cell);
   }
 }
