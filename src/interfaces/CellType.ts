@@ -1,9 +1,9 @@
 import ObjectSpecs from "./ObjectSpecs";
 import Material from "./Material";
+import StorageIndex from "./StorageIndex";
 
 export default interface CellType {
-  type: string;
   objectSpecs: ObjectSpecs;
-
+  storage: StorageIndex[];
   work(target: string | Material): boolean;
 }

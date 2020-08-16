@@ -29,7 +29,7 @@ export default class Hive {
     const hiveStorage: StorageIndex[] = [];
     for (const cell of this.cells) {
       for (const index of cell.storage) {
-        let hasThisMaterial = false;
+        let hasThisMaterial: boolean = false;
         for (const indexParent of hiveStorage) {
           if (indexParent.material.name == index.material.name) {
             indexParent.count += index.count;

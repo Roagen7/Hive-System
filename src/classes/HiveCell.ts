@@ -5,7 +5,6 @@ import Material from "../interfaces/Material";
 import StorageIndex from "../interfaces/StorageIndex";
 
 export default class HiveCell implements CellType {
-  public type = "normal";
   public objectSpecs: ObjectSpecs;
   public storage: StorageIndex[] = [];
 
