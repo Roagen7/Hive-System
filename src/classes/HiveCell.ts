@@ -1,10 +1,10 @@
 import ObjectSpecs from "../interfaces/ObjectSpecs";
-import MaterialsInStorage from "../interfaces/MaterialsInStorage";
-import { Materials } from "../enums/Materials";
 
-export default class HiveCell {
+import { Materials } from "../enums/Materials";
+import CellType from "../interfaces/CellType";
+
+export default class HiveCell implements CellType {
   public objectSpecs: ObjectSpecs;
-  public materialsInStorage?: MaterialsInStorage;
 
   constructor(objectSpecs?: ObjectSpecs) {
     if (objectSpecs) {
@@ -16,5 +16,9 @@ export default class HiveCell {
         numOfAngles: 6,
       };
     }
+  }
+
+  work() {
+    return true;
   }
 }
