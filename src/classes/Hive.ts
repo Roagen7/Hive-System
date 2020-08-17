@@ -6,7 +6,7 @@ import StorageIndex from "../interfaces/StorageIndex";
 export default class Hive {
   public cells: HiveCell[];
   public objectSpecs: ObjectSpecs;
-
+  //test
   constructor(objectSpecs?: ObjectSpecs, cells?: HiveCell[]) {
     if (cells) {
       this.cells = cells;
