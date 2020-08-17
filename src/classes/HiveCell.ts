@@ -3,9 +3,11 @@ import { Materials } from "../enums/Materials";
 import CellType from "../interfaces/CellType";
 import Material from "../interfaces/Material";
 import StorageIndex from "../interfaces/StorageIndex";
+import { Hive } from "..";
 
 export default class HiveCell implements CellType {
   public objectSpecs: ObjectSpecs;
+  public parent: Hive | undefined;
   public storage: StorageIndex[] = [];
 
   constructor(objectSpecs?: ObjectSpecs) {

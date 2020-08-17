@@ -49,6 +49,7 @@ export default class Hive {
       if (!cell.objectSpecs) {
         cell.objectSpecs = this.objectSpecs;
       }
+      cell.parent = this;
       this.cells.push(cell);
     } else {
       for (let c of cell) {
