@@ -17,7 +17,6 @@ export default class ProductionHiveCell extends HiveCell implements CellType {
         if (this.storage[index].count >= requiredIndex.count) {
           this.storage[index].count -= requiredIndex.count;
         } else if (this.parent) {
-          console.log(this.parent);
         }
       }
     }
