@@ -15,12 +15,15 @@ const cell2 = new HiveCell();
 hive.addCell(prodCell);
 hive.addCell(cell);
 hive.addCell(cell2);
+prodCell.addMaterials(Materials.PolylactidAcid, 1);
 cell.addMaterials(Materials.Polytetrafluoroethylene, 3);
 cell.addMaterials(Materials.PolylactidAcid, 2);
 cell2.addMaterials(Materials.Polytetrafluoroethylene, 4);
-cell2.addMaterials(Materials.PolylactidAcid, 1);
+cell2.addMaterials(Materials.PolylactidAcid, 3);
 
-console.log(hive.hiveStorage);
-console.log(hive.hiveStorage);
+prodCell.produce(Products.Screw);
+console.log(prodCell.produce(Products.Handle));
 
-//hive.requestMaterialTransition(prodCell, Materials.Polytetrafluoroethylene, 7);
+for (let cell of hive.cells) {
+  console.log(cell.storage);
+}

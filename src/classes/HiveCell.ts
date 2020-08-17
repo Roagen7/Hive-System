@@ -4,11 +4,13 @@ import CellType from "../interfaces/CellType";
 import Material from "../interfaces/Material";
 import StorageIndex from "../interfaces/StorageIndex";
 import { Hive } from "..";
+import Product from "../interfaces/Product";
 
 export default class HiveCell implements CellType {
   public objectSpecs: ObjectSpecs;
   public parent: Hive | undefined;
   public storage: StorageIndex[] = [];
+  public products: Product[] = [];
 
   constructor(objectSpecs?: ObjectSpecs) {
     if (objectSpecs) {

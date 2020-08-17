@@ -41,7 +41,6 @@ export default class Hive {
               count: hiveStorage[storOfHive].count + storIndex.count,
             };
             hasThisMaterial = true;
-            console.log("teststorage", hiveStorage);
           }
         }
         if (hasThisMaterial == false) {
@@ -56,7 +55,7 @@ export default class Hive {
     cell: HiveCell,
     material: Material,
     count: number
-  ): void {
+  ): boolean {
     const index = this.getIndexOfMaterial(material);
 
     if (index != -1) {
@@ -64,8 +63,11 @@ export default class Hive {
         this.removeMaterialAmountFromChildren(material, count);
         //console.log(this.hiveStorage);
         cell.addMaterials(material, count);
+        return true;
       }
+      return false;
     }
+    return false;
   }
 
   public removeMaterialAmountFromChildren(
