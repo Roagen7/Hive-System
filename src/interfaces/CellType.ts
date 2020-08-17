@@ -1,9 +1,10 @@
 import ObjectSpecs from "./ObjectSpecs";
 import Material from "./Material";
+import StorageIndex from "./StorageIndex";
+import { Hive } from "..";
 
 export default interface CellType {
-  type: string;
+  parent: Hive | undefined;
   objectSpecs: ObjectSpecs;
-
-  work(target: string | Material): boolean;
+  storage: StorageIndex[];
 }
