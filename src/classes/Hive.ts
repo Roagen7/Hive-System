@@ -61,7 +61,7 @@ export default class Hive {
     if (index != -1) {
       if (this.hiveStorage[index].count >= count) {
         this.removeMaterialAmountFromChildren(material, count);
-        //console.log(this.hiveStorage);
+
         cell.addMaterials(material, count);
         return true;
       }
@@ -96,12 +96,6 @@ export default class Hive {
     let i = 0;
     this.hiveStorage;
 
-    ///AAAAAAAAAAAAAa
-    /*
-    for (let cellz of this.cells) {
-      console.log(cellz.storage);
-    }
-    */
     for (const index of this.hiveStorage) {
       if (material.name == index.material.name) {
         return i;
