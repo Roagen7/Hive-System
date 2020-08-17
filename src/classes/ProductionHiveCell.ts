@@ -26,12 +26,10 @@ export default class ProductionHiveCell extends HiveCell implements CellType {
   produce(product: Product): boolean {
     for (const requiredIndex of product.requirements) {
       const index = this.getIndexOfMaterial(requiredIndex.material);
-      if (index != -1) {
-        if (this.storage[index].count >= requiredIndex.count) {
-          this.storage[index].count -= requiredIndex.count;
-          this.products.push(product);
-        } else if (this.parent) {
+      switch (index) {
+        case -1:
           if (
+            this.parent &&
             this.parent.requestMaterialTransition(
               this,
               requiredIndex.material,
@@ -42,23 +40,28 @@ export default class ProductionHiveCell extends HiveCell implements CellType {
           } else {
             return false;
           }
-        } else {
-          return false;
-        }
-      } else if (this.parent) {
-        if (
-          this.parent.requestMaterialTransition(
-            this,
-            requiredIndex.material,
-            requiredIndex.count
-          )
-        ) {
-          this.produce(product);
-        } else {
-          return false;
-        }
-      } else {
-        return false;
+          break;
+        default:
+          switch (this.storage[index].count >= requiredIndex.count) {
+            case true:
+              this.storage[index].count -= requiredIndex.count;
+              this.products.push(product);
+              break;
+            case false:
+              if (
+                this.parent &&
+                this.parent.requestMaterialTransition(
+                  this,
+                  requiredIndex.material,
+                  requiredIndex.count
+                )
+              ) {
+                this.produce(product);
+              } else {
+                return false;
+              }
+              break;
+          }
       }
     }
     return true;
