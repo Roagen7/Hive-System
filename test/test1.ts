@@ -26,20 +26,17 @@ hive.addCell(cell);
 hive.addCell(cell2);
 hive.addCell(cell3);
 
-cell3.addMaterials(Materials.Polytetrafluoroethylene, 2);
-cell2.addMaterials(Materials.PolylactidAcid, 10);
-cell2.addMaterials(Materials.Polytetrafluoroethylene, 5);
-cell2.addMaterials(Materials.Polytetrafluoroethylene, 5);
-cell.addMaterials(Materials.Polytetrafluoroethylene, 3);
-cell.addMaterials(Materials.PolylactidAcid, 10);
-cell.addMaterials(Materials.PolylactidAcid, 10);
-cell3.addMaterials(Materials.PolylactidAcid, 12);
+cell2.addMaterials(Materials.PolylactidAcid, 12);
+cell3.addMaterials(Materials.PolylactidAcid, 1);
+
 const cell4 = new ProductionHiveCell();
 hive.addCell(cell4);
-cell4.addMaterials(Materials.PolylactidAcid, 4);
+cell4.addMaterials(Materials.PolylactidAcid, 10);
+hive.removeMaterialAmountFromChildren(Materials.PolylactidAcid, 22);
+
 //cell4.produce(Products.Screw);
 
-console.log(hive.hiveStorage);
+//console.log(hive.hiveStorage);
 /*
 for (let cell of hive.cells) {
   console.log(cell);

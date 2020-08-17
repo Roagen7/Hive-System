@@ -2,11 +2,12 @@ import HiveCell from "./HiveCell";
 import { Materials } from "../enums/Materials";
 import ObjectSpecs from "../interfaces/ObjectSpecs";
 import StorageIndex from "../interfaces/StorageIndex";
+import Material from "../interfaces/Material";
 
 export default class Hive {
   public cells: HiveCell[];
   public objectSpecs: ObjectSpecs;
-  //test
+
   constructor(objectSpecs?: ObjectSpecs, cells?: HiveCell[]) {
     if (cells) {
       this.cells = cells;
@@ -42,6 +43,39 @@ export default class Hive {
       }
     }
     return hiveStorage;
+  }
+
+  public removeMaterialAmountFromChildren(
+    material: Material,
+    count: number
+  ): boolean {
+    for (const cell of this.cells) {
+      if (count == 0) {
+        return true;
+      }
+      const index = cell.getIndexOfMaterial(material);
+      if (index != -1) {
+        if (cell.storage[index].count >= count) {
+          cell.storage[index].count -= count;
+          return true;
+        } else {
+          count -= cell.storage[index].count;
+          cell.storage[index].count = 0;
+        }
+      }
+    }
+    return false;
+  }
+
+  public getIndexOfMaterial(material: Material): number {
+    let i = 0;
+    for (const index of this.hiveStorage) {
+      if (material.name == index.material.name) {
+        return i;
+      }
+      i++;
+    }
+    return -1;
   }
 
   public addCell(cell: any): void {
