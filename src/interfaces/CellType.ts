@@ -5,5 +5,4 @@ import StorageIndex from "./StorageIndex";
 export default interface CellType {
   objectSpecs: ObjectSpecs;
   storage: StorageIndex[];
-  work(target: string | Material): boolean;
 }

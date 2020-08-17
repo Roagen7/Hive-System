@@ -20,18 +20,25 @@ export default class HiveCell implements CellType {
     }
   }
 
-  addMaterials(material: Material, count: number): boolean {
+  getIndexOfMaterial(material: Material): number {
+    let i = 0;
     for (const index of this.storage) {
-      if (index.material.name == material.name) {
-        index.count += count;
-        return true;
+      if (material.name == index.material.name) {
+        return i;
       }
+      i++;
     }
-    this.storage.push({ material, count });
-    return true;
+    return -1;
   }
 
-  work(target: string | Material): boolean {
-    throw new Error("Method not implemented.");
+  addMaterials(material: Material, count: number): boolean {
+    const index = this.getIndexOfMaterial(material);
+    if (index != -1) {
+      this.storage[index].count += count;
+    } else {
+      this.storage.push({ material, count });
+    }
+
+    return true;
   }
 }
