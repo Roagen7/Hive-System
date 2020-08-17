@@ -1,15 +1,28 @@
 import ObjectSpecs from "../interfaces/ObjectSpecs";
-import { Materials } from "../enums/Materials";
-import { Products } from "../enums/Products";
 import CellType from "../interfaces/CellType";
-import Material from "../interfaces/Material";
-import HiveCell from "./HiveCell";
 import Product from "../interfaces/Product";
+import HiveCell from "./HiveCell";
 
+/**
+ * hive cell specialised in production of Products
+ *
+ * @export
+ * @class ProductionHiveCell
+ * @extends {HiveCell}
+ * @implements {CellType}
+ */
 export default class ProductionHiveCell extends HiveCell implements CellType {
   constructor(objectSpecs?: ObjectSpecs) {
     super(objectSpecs);
   }
+
+  /**
+   * main production function of a ProductionHiveCell
+   *
+   * @param {Product} product
+   * @returns {boolean}
+   * @memberof ProductionHiveCell
+   */
   produce(product: Product): boolean {
     for (const requiredIndex of product.requirements) {
       const index = this.getIndexOfMaterial(requiredIndex.material);

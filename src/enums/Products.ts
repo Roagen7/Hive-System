@@ -1,7 +1,8 @@
-import Material from "../interfaces/Material";
-import StorageIndex from "../interfaces/StorageIndex";
 import Product from "../interfaces/Product";
 import { Materials } from "./Materials";
+
+//a dict consisting of products that are available to make
+
 export const Products: { Screw: Product; Handle: Product } = {
   Screw: {
     name: "Screw",

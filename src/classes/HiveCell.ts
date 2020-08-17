@@ -1,11 +1,18 @@
-import ObjectSpecs from "../interfaces/ObjectSpecs";
+import Hive from "../classes/Hive";
 import { Materials } from "../enums/Materials";
+import ObjectSpecs from "../interfaces/ObjectSpecs";
 import CellType from "../interfaces/CellType";
 import Material from "../interfaces/Material";
 import StorageIndex from "../interfaces/StorageIndex";
-import { Hive } from "..";
 import Product from "../interfaces/Product";
 
+/**
+ * class representing single cell that has no specification whatsoever - it is just a blank template for other cells
+ *
+ * @export
+ * @class HiveCell
+ * @implements {CellType}
+ */
 export default class HiveCell implements CellType {
   public objectSpecs: ObjectSpecs;
   public parent: Hive | undefined;
@@ -24,6 +31,13 @@ export default class HiveCell implements CellType {
     }
   }
 
+  /**
+   * returns index of specified material in storage, -1 if none
+   *
+   * @param {Material} material
+   * @returns {number}
+   * @memberof HiveCell
+   */
   getIndexOfMaterial(material: Material): number {
     let i = 0;
     for (const index of this.storage) {
@@ -35,6 +49,14 @@ export default class HiveCell implements CellType {
     return -1;
   }
 
+  /**
+   * adds amount of material to storage of cell
+   *
+   * @param {Material} material
+   * @param {number} count
+   * @returns {boolean}
+   * @memberof HiveCell
+   */
   addMaterials(material: Material, count: number): boolean {
     const index = this.getIndexOfMaterial(material);
     if (index != -1) {
