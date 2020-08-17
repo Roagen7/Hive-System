@@ -2,6 +2,8 @@ import ObjectSpecs from "../interfaces/ObjectSpecs";
 import CellType from "../interfaces/CellType";
 import Product from "../interfaces/Product";
 import HiveCell from "./HiveCell";
+import Material from "../interfaces/Material";
+import { Products } from "../enums/Products";
 
 /**
  * hive cell specialised in production of Products

@@ -5,11 +5,20 @@ import Material from "../interfaces/Material";
 export const Materials: {
   PolylactidAcid: Material;
   Polytetrafluoroethylene: Material;
+  Stone: Material;
+  IronOre: Material;
 } = {
   PolylactidAcid: {
     name: "Polylactid acid",
   },
   Polytetrafluoroethylene: {
     name: "Polytetrafluoroethylene",
+  },
+  Stone: {
+    name: "Stone ore",
+  },
+  IronOre: {
+    name: "Iron ore",
+    chance: 1 / 50,
   },
 };
