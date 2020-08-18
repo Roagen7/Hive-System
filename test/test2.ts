@@ -13,7 +13,7 @@ const prodCell = new ProductionHiveCell();
 const mineCell = new MiningHiveCell();
 hive.addCell(prodCell);
 hive.addCell(mineCell);
-const toProduce = Materials.Handle;
+const toProduce = Materials.GoldenRing;
 prodCell.produce(toProduce);
 console.log(
   "produced",

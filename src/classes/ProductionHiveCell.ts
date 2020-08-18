@@ -29,13 +29,15 @@ export default class ProductionHiveCell extends HiveCell implements CellType {
     if (!product.craftable || !product.requirements) {
       return false;
     }
-
-    for (const requiredIndex of product.requirements) {
-      const index = this.getIndexOfMaterial(requiredIndex.material);
+    let validProduct = JSON.parse(JSON.stringify(product));
+    if (!validProduct.requirements) {
+      return false;
+    }
+    for (const requiredIndex of validProduct.requirements) {
+      let index = this.getIndexOfMaterial(requiredIndex.material);
 
       if (index != -1 && this.storage[index].count >= requiredIndex.count) {
         this.storage[index].count -= requiredIndex.count;
-        this.addMaterials(product, 1);
       } else if (
         this.parent &&
         this.parent.requestMaterialTransition(
@@ -44,13 +46,18 @@ export default class ProductionHiveCell extends HiveCell implements CellType {
           requiredIndex.count
         )
       ) {
-        this.produce(product);
+        this.parent.requestMaterialTransition(
+          this,
+          requiredIndex.material,
+          requiredIndex.count
+        );
+        index = this.getIndexOfMaterial(requiredIndex.material);
+        this.storage[index].count -= requiredIndex.count;
       } else {
         return false;
       }
-
-      return true;
     }
+    this.addMaterials(product, 1);
     return true;
   }
 }

@@ -74,6 +74,24 @@ const Products = {
       },
     ],
   },
+  GoldenRing: {
+    name: "Golden ring",
+    craftable: true,
+    requirements: [
+      {
+        material: Metals.Gold,
+        count: 2,
+      },
+      {
+        material: Metals.Iron,
+        count: 2,
+      },
+      {
+        material: Basic.IronOre,
+        count: 3,
+      },
+    ],
+  },
 };
 
 export const Materials = { ...Basic, ...Metals, ...Polymers, ...Products };

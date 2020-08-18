@@ -114,7 +114,6 @@ export default class Hive {
         return false;
       }
     }
-    return false;
   }
 
   /**
