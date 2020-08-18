@@ -1,10 +1,16 @@
-import HiveCell from "./HiveCell";
 import { Materials } from "../enums/Materials";
 import ObjectSpecs from "../interfaces/ObjectSpecs";
 import StorageIndex from "../interfaces/StorageIndex";
 import Material from "../interfaces/Material";
-import CellType from "../interfaces/CellType";
+import HiveCell from "./HiveCell";
+import { MiningHiveCell, ProductionHiveCell } from "..";
 
+/**
+ * abstract class representing a control center for a set of HiveCells
+ *
+ * @export
+ * @class Hive
+ */
 export default class Hive {
   public cells: HiveCell[];
   public objectSpecs: ObjectSpecs;
@@ -27,6 +33,13 @@ export default class Hive {
     }
   }
 
+  /**
+   * returns all materials of all of the hivecells
+   *
+   * @readonly
+   * @type {StorageIndex[]}
+   * @memberof Hive
+   */
   get hiveStorage(): StorageIndex[] {
     const hiveStorage: StorageIndex[] = [];
     for (const cell of this.cells) {
@@ -51,6 +64,16 @@ export default class Hive {
 
     return hiveStorage;
   }
+
+  /**
+   * transfer amount of materials from other cells to a target cell
+   *
+   * @param {HiveCell} cell target cell
+   * @param {Material} material
+   * @param {number} count
+   * @returns {boolean} true if manages to find required material amount
+   * @memberof Hive
+   */
   public requestMaterialTransition(
     cell: HiveCell,
     material: Material,
@@ -58,18 +81,50 @@ export default class Hive {
   ): boolean {
     const index = this.getIndexOfMaterial(material);
 
-    if (index != -1) {
-      if (this.hiveStorage[index].count >= count) {
-        this.removeMaterialAmountFromChildren(material, count);
+    if (index != -1 && this.hiveStorage[index].count >= count) {
+      this.removeMaterialAmountFromChildren(material, count);
 
-        cell.addMaterials(material, count);
-        return true;
+      cell.addMaterials(material, count);
+      return true;
+    } else {
+      if (material.craftable) {
+        for (const cell of this.cells) {
+          if (cell.spec == "production") {
+            for (let i = 0; i < count; i++) {
+              (cell as ProductionHiveCell).produce(material);
+              console.log("produced:", material);
+            }
+
+            this.removeMaterialAmountFromChildren(material, count);
+            cell.addMaterials(material, count);
+            return true;
+          }
+        }
+        return false;
+      } else {
+        for (const cell of this.cells) {
+          if (cell.spec == "mining") {
+            (cell as MiningHiveCell).mine(material, count);
+            console.log("mined", count, material);
+            this.removeMaterialAmountFromChildren(material, count);
+            cell.addMaterials(material, count);
+            return true;
+          }
+        }
+        return false;
       }
-      return false;
     }
     return false;
   }
 
+  /**
+   * a helper function for removing a certaing amount of material from cells
+   *
+   * @param {Material} material
+   * @param {number} count
+   * @returns {boolean}
+   * @memberof Hive
+   */
   public removeMaterialAmountFromChildren(
     material: Material,
     count: number
@@ -92,6 +147,13 @@ export default class Hive {
     return false;
   }
 
+  /**
+   * returns index of a material in hive storage, -1 if none
+   *
+   * @param {Material} material
+   * @returns {number}
+   * @memberof Hive
+   */
   public getIndexOfMaterial(material: Material): number {
     let i = 0;
     this.hiveStorage;
@@ -105,6 +167,12 @@ export default class Hive {
     return -1;
   }
 
+  /**
+   * adds cell to hive
+   *
+   * @param {*} cell
+   * @memberof Hive
+   */
   public addCell(cell: any): void {
     if (cell as HiveCell) {
       if (!cell.objectSpecs) {
