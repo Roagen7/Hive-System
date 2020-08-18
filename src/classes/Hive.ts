@@ -81,21 +81,20 @@ export default class Hive {
   ): boolean {
     const index = this.getIndexOfMaterial(material);
 
-    if (index != -1) {
-      if (this.hiveStorage[index].count >= count) {
-        this.removeMaterialAmountFromChildren(material, count);
+    if (index != -1 && this.hiveStorage[index].count >= count) {
+      this.removeMaterialAmountFromChildren(material, count);
 
-        cell.addMaterials(material, count);
-        return true;
-      }
-      return false;
+      cell.addMaterials(material, count);
+      return true;
     } else {
       if (material.craftable) {
         for (const cell of this.cells) {
           if (cell.spec == "production") {
             for (let i = 0; i < count; i++) {
               (cell as ProductionHiveCell).produce(material);
+              console.log("produced:", material);
             }
+
             this.removeMaterialAmountFromChildren(material, count);
             cell.addMaterials(material, count);
             return true;
@@ -106,6 +105,7 @@ export default class Hive {
         for (const cell of this.cells) {
           if (cell.spec == "mining") {
             (cell as MiningHiveCell).mine(material, count);
+            console.log("mined", count, material);
             this.removeMaterialAmountFromChildren(material, count);
             cell.addMaterials(material, count);
             return true;

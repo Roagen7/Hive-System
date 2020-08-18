@@ -34,6 +34,7 @@ export default class ProductionHiveCell extends HiveCell implements CellType {
       const index = this.getIndexOfMaterial(requiredIndex.material);
       switch (index) {
         case -1:
+          console.log(`ran out of ${requiredIndex.material.name}`);
           if (
             this.parent &&
             this.parent.requestMaterialTransition(
@@ -54,6 +55,9 @@ export default class ProductionHiveCell extends HiveCell implements CellType {
               this.addMaterials(product, 1);
               break;
             case false:
+              console.log(
+                `ran out of ${requiredIndex.count} of ${requiredIndex.material.name}`
+              );
               if (
                 this.parent &&
                 this.parent.requestMaterialTransition(

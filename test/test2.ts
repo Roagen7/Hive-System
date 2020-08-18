@@ -14,6 +14,6 @@ const mineCell = new MiningHiveCell();
 hive.addCell(prodCell);
 hive.addCell(mineCell);
 
-prodCell.produce(Materials.Iron);
+prodCell.produce(Materials.Handle);
 
 console.log(prodCell.storage);

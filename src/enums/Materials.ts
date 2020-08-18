@@ -53,7 +53,7 @@ const Products = {
     craftable: true,
     requirements: [
       {
-        material: Polymers.Polytetrafluoroethylene,
+        material: Metals.Iron,
         count: 5,
       },
     ],
