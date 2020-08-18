@@ -65,7 +65,7 @@ const Products = {
     ],
   },
   Coin: {
-    name: "Handle",
+    name: "Coin",
     craftable: true,
     requirements: [
       {

@@ -80,7 +80,7 @@ export default class Hive {
     count: number
   ): boolean {
     const index = this.getIndexOfMaterial(material);
-
+    console.log(`missing ${material.name} amount: ${count}`);
     if (index != -1 && this.hiveStorage[index].count >= count) {
       this.removeMaterialAmountFromChildren(material, count);
 

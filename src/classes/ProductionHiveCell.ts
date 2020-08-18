@@ -32,47 +32,24 @@ export default class ProductionHiveCell extends HiveCell implements CellType {
 
     for (const requiredIndex of product.requirements) {
       const index = this.getIndexOfMaterial(requiredIndex.material);
-      switch (index) {
-        case -1:
-          console.log(`ran out of ${requiredIndex.material.name}`);
-          if (
-            this.parent &&
-            this.parent.requestMaterialTransition(
-              this,
-              requiredIndex.material,
-              requiredIndex.count
-            )
-          ) {
-            this.produce(product);
-          } else {
-            return false;
-          }
-          break;
-        default:
-          switch (this.storage[index].count >= requiredIndex.count) {
-            case true:
-              this.storage[index].count -= requiredIndex.count;
-              this.addMaterials(product, 1);
-              break;
-            case false:
-              console.log(
-                `ran out of ${requiredIndex.count} of ${requiredIndex.material.name}`
-              );
-              if (
-                this.parent &&
-                this.parent.requestMaterialTransition(
-                  this,
-                  requiredIndex.material,
-                  requiredIndex.count
-                )
-              ) {
-                this.produce(product);
-              } else {
-                return false;
-              }
-              break;
-          }
+
+      if (index != -1 && this.storage[index].count >= requiredIndex.count) {
+        this.storage[index].count -= requiredIndex.count;
+        this.addMaterials(product, 1);
+      } else if (
+        this.parent &&
+        this.parent.requestMaterialTransition(
+          this,
+          requiredIndex.material,
+          requiredIndex.count
+        )
+      ) {
+        this.produce(product);
+      } else {
+        return false;
       }
+
+      return true;
     }
     return true;
   }
