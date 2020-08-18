@@ -16,6 +16,11 @@ const Basic = {
     chance: 50,
     craftable: false,
   },
+  GoldOre: {
+    name: "Gold ore",
+    chance: 100,
+    craftable: false,
+  },
 };
 
 const Metals = {
@@ -25,9 +30,10 @@ const Metals = {
     requirements: [{ material: Basic.IronOre, count: 3 }],
   },
   Gold: {
-    name: "Iron ore",
+    name: "Gold",
     chance: 50,
-    craftable: false,
+    craftable: true,
+    requirements: [{ material: Basic.GoldOre, count: 5 }],
   },
 };
 
@@ -55,6 +61,16 @@ const Products = {
       {
         material: Metals.Iron,
         count: 5,
+      },
+    ],
+  },
+  Coin: {
+    name: "Handle",
+    craftable: true,
+    requirements: [
+      {
+        material: Metals.Gold,
+        count: 2,
       },
     ],
   },
