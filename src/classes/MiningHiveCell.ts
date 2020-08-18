@@ -14,6 +14,7 @@ export default class MiningHiveCell extends HiveCell implements CellType {
     if (!material.chance) {
       return;
     } else {
+      console.log(`i mined ${count} ${material.name}`);
       while (count != 0) {
         for (let i = 0; i < material.chance; i++) {
           this.addMaterials(Materials.Stone, 1);

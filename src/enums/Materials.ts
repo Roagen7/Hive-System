@@ -18,6 +18,19 @@ const Basic = {
   },
 };
 
+const Metals = {
+  Iron: {
+    name: "Iron",
+    craftable: true,
+    requirements: [{ material: Basic.IronOre, count: 3 }],
+  },
+  Gold: {
+    name: "Iron ore",
+    chance: 50,
+    craftable: false,
+  },
+};
+
 const Polymers = {
   PolylactidAcid: {
     name: "Polylactid acid",
@@ -47,4 +60,4 @@ const Products = {
   },
 };
 
-export const Materials = { ...Basic, ...Polymers, ...Products };
+export const Materials = { ...Basic, ...Metals, ...Polymers, ...Products };

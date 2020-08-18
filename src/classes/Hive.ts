@@ -3,6 +3,7 @@ import ObjectSpecs from "../interfaces/ObjectSpecs";
 import StorageIndex from "../interfaces/StorageIndex";
 import Material from "../interfaces/Material";
 import HiveCell from "./HiveCell";
+import { MiningHiveCell, ProductionHiveCell } from "..";
 
 /**
  * abstract class representing a control center for a set of HiveCells
@@ -88,6 +89,30 @@ export default class Hive {
         return true;
       }
       return false;
+    } else {
+      if (material.craftable) {
+        for (const cell of this.cells) {
+          if (cell.spec == "production") {
+            for (let i = 0; i < count; i++) {
+              (cell as ProductionHiveCell).produce(material);
+            }
+            this.removeMaterialAmountFromChildren(material, count);
+            cell.addMaterials(material, count);
+            return true;
+          }
+        }
+        return false;
+      } else {
+        for (const cell of this.cells) {
+          if (cell.spec == "mining") {
+            (cell as MiningHiveCell).mine(material, count);
+            this.removeMaterialAmountFromChildren(material, count);
+            cell.addMaterials(material, count);
+            return true;
+          }
+        }
+        return false;
+      }
     }
     return false;
   }
