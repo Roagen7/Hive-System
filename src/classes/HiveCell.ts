@@ -14,6 +14,7 @@ import Product from "../interfaces/Product";
  * @implements {CellType}
  */
 export default class HiveCell implements CellType {
+  public spec = "none";
   public objectSpecs: ObjectSpecs;
   public parent: Hive | undefined;
   public storage: StorageIndex[] = [];

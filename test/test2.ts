@@ -4,23 +4,20 @@ import {
   Products,
   Materials,
   HiveCell,
+  MiningHiveCell,
 } from "../src";
 
 const hive = new Hive();
 
 const prodCell = new ProductionHiveCell();
-const cell = new HiveCell();
-const cell2 = new HiveCell();
 
+const mineCell = new MiningHiveCell();
 hive.addCell(prodCell);
-hive.addCell(cell);
-hive.addCell(cell2);
-prodCell.addMaterials(Materials.PolylactidAcid, 1);
-cell.addMaterials(Materials.Polytetrafluoroethylene, 3);
-cell.addMaterials(Materials.PolylactidAcid, 2);
-cell2.addMaterials(Materials.Polytetrafluoroethylene, 10);
-cell2.addMaterials(Materials.PolylactidAcid, 3);
 
+hive.addCell(mineCell);
+prodCell.addMaterials(Materials.PolylactidAcid, 1);
+
+mineCell.mine(Materials.IronOre, 3);
 prodCell.produce(Products.Screw);
 console.log(prodCell.produce(Products.Handle));
 

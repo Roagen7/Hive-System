@@ -14,6 +14,7 @@ import { Products } from "../enums/Products";
  * @implements {CellType}
  */
 export default class ProductionHiveCell extends HiveCell implements CellType {
+  public spec = "production";
   constructor(objectSpecs?: ObjectSpecs) {
     super(objectSpecs);
   }

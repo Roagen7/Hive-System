@@ -6,6 +6,7 @@
  */
 export default interface Material {
   name: string;
+  craftable: boolean;
   chance?: number;
   hardness?: number;
   fireproofness?: number;
