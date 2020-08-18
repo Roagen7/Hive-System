@@ -4,7 +4,6 @@ import ObjectSpecs from "../interfaces/ObjectSpecs";
 import CellType from "../interfaces/CellType";
 import Material from "../interfaces/Material";
 import StorageIndex from "../interfaces/StorageIndex";
-import Product from "../interfaces/Product";
 
 /**
  * class representing single cell that has no specification whatsoever - it is just a blank template for other cells
@@ -18,7 +17,6 @@ export default class HiveCell implements CellType {
   public objectSpecs: ObjectSpecs;
   public parent: Hive | undefined;
   public storage: StorageIndex[] = [];
-  public products: Product[] = [];
 
   constructor(objectSpecs?: ObjectSpecs) {
     if (objectSpecs) {

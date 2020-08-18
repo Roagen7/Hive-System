@@ -1,9 +1,8 @@
 import ObjectSpecs from "../interfaces/ObjectSpecs";
 import CellType from "../interfaces/CellType";
-import Product from "../interfaces/Product";
+
 import HiveCell from "./HiveCell";
 import Material from "../interfaces/Material";
-import { Products } from "../enums/Products";
 
 /**
  * hive cell specialised in production of Products
@@ -26,7 +25,11 @@ export default class ProductionHiveCell extends HiveCell implements CellType {
    * @returns {boolean}
    * @memberof ProductionHiveCell
    */
-  produce(product: Product): boolean {
+  produce(product: Material): boolean {
+    if (!product.craftable || !product.requirements) {
+      return false;
+    }
+
     for (const requiredIndex of product.requirements) {
       const index = this.getIndexOfMaterial(requiredIndex.material);
       switch (index) {
@@ -48,7 +51,7 @@ export default class ProductionHiveCell extends HiveCell implements CellType {
           switch (this.storage[index].count >= requiredIndex.count) {
             case true:
               this.storage[index].count -= requiredIndex.count;
-              this.products.push(product);
+              this.addMaterials(product, 1);
               break;
             case false:
               if (
