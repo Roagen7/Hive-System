@@ -3,7 +3,8 @@ import ObjectSpecs from "../interfaces/ObjectSpecs";
 import StorageIndex from "../interfaces/StorageIndex";
 import Material from "../interfaces/Material";
 import HiveCell from "./HiveCell";
-import { MiningHiveCell, ProductionHiveCell } from "..";
+import MiningHiveCell from "./MiningHiveCell";
+import ProductionHiveCell from "./ProductionHiveCell";
 
 /**
  * abstract class representing a control center for a set of HiveCells
@@ -66,57 +67,6 @@ export default class Hive {
   }
 
   /**
-   * transfer amount of materials from other cells to a target cell
-   *
-   * @param {HiveCell} cell target cell
-   * @param {Material} material
-   * @param {number} count
-   * @returns {boolean} true if manages to find required material amount
-   * @memberof Hive
-   */
-  public requestMaterialTransition(
-    cell: HiveCell,
-    material: Material,
-    count: number
-  ): boolean {
-    const index = this.getIndexOfMaterial(material);
-    console.log(`missing ${material.name} amount: ${count}`);
-    if (index != -1 && this.hiveStorage[index].count >= count) {
-      this.removeMaterialAmountFromChildren(material, count);
-
-      cell.addMaterials(material, count);
-      return true;
-    } else {
-      if (material.craftable) {
-        for (const cell of this.cells) {
-          if (cell.spec == "production") {
-            for (let i = 0; i < count; i++) {
-              (cell as ProductionHiveCell).produce(material);
-              console.log("produced:", material);
-            }
-
-            this.removeMaterialAmountFromChildren(material, count);
-            cell.addMaterials(material, count);
-            return true;
-          }
-        }
-        return false;
-      } else {
-        for (const cell of this.cells) {
-          if (cell.spec == "mining") {
-            (cell as MiningHiveCell).mine(material, count);
-            console.log("mined", count, material);
-            this.removeMaterialAmountFromChildren(material, count);
-            cell.addMaterials(material, count);
-            return true;
-          }
-        }
-        return false;
-      }
-    }
-  }
-
-  /**
    * a helper function for removing a certaing amount of material from cells
    *
    * @param {Material} material
@@ -124,7 +74,7 @@ export default class Hive {
    * @returns {boolean}
    * @memberof Hive
    */
-  public removeMaterialAmountFromChildren(
+  private removeMaterialAmountFromChildren(
     material: Material,
     count: number
   ): boolean {
@@ -144,6 +94,91 @@ export default class Hive {
       }
     }
     return false;
+  }
+
+  /**
+   * assembles cell of certain type to hive
+   *
+   * @private
+   * @memberof Hive
+   */
+  private assembleCell(type: "production" | "mining"): boolean {
+    switch (type) {
+      case "production":
+        this.cells.push(new ProductionHiveCell());
+        break;
+      case "mining":
+        this.cells.push(new MiningHiveCell());
+    }
+
+    return true;
+  }
+
+  /**
+   * method for dealing with second-hand material request
+   *
+   * @param {HiveCell} targetCell
+   * @param {Material} material
+   * @param {number} count
+   * @return {*}  {boolean}
+   * @memberof Hive
+   */
+
+  private fetchTheMaterial(
+    targetCell: HiveCell,
+    material: Material,
+    count: number
+  ): boolean {
+    const type: "production" | "mining" = material.craftable
+      ? "production"
+      : "mining";
+
+    for (const cell of this.cells) {
+      if (cell.spec == type) {
+        if (type === "production") {
+          for (let i = 0; i < count; i++) {
+            (cell as ProductionHiveCell).produce(material);
+            console.log("produced:", material);
+          }
+        }
+        if (type === "mining") {
+          (cell as MiningHiveCell).mine(material, count);
+          console.log("mined", count, material);
+        }
+        this.removeMaterialAmountFromChildren(material, count);
+        targetCell.addMaterials(material, count);
+        return true;
+      }
+    }
+    console.log(`ASSEMBLING ${type} cell`);
+    this.assembleCell(type);
+    return this.fetchTheMaterial(targetCell, material, count);
+  }
+
+  /**
+   * transfer amount of materials from other cells to a target cell
+   *
+   * @param {HiveCell} cell target cell
+   * @param {Material} material
+   * @param {number} count
+   * @returns {boolean} true if manages to find required material amount
+   * @memberof Hive
+   */
+  public requestMaterialTransition(
+    targetCell: HiveCell,
+    material: Material,
+    count: number
+  ): boolean {
+    const index = this.getIndexOfMaterial(material);
+    console.log(`missing ${material.name} amount: ${count}`);
+    if (index != -1 && this.hiveStorage[index].count >= count) {
+      this.removeMaterialAmountFromChildren(material, count);
+
+      targetCell.addMaterials(material, count);
+      return true;
+    } else {
+      return this.fetchTheMaterial(targetCell, material, count);
+    }
   }
 
   /**

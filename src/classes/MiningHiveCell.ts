@@ -10,6 +10,14 @@ export default class MiningHiveCell extends HiveCell implements CellType {
     super(objectSpecs);
   }
 
+  /**
+   * mining method
+   *
+   * @param {Material} material
+   * @param {number} count
+   * @return {*}  {void}
+   * @memberof MiningHiveCell
+   */
   public mine(material: Material, count: number): void {
     console.log("mining...");
     if (!material.chance) {
