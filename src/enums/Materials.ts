@@ -7,7 +7,7 @@ import Material from "../interfaces/Material";
 
 const Basic = {
   Stone: {
-    name: "Stone ore",
+    name: "Stone",
     chance: 0,
     craftable: false,
   },
